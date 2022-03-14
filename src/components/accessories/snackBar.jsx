@@ -19,8 +19,8 @@ function SnackBar({ useSnackbar, openSnackBar, handleOpenSnackBar }) {
 
 	return (
 		<React.Fragment>
-			{}
-			{/* <Button onClick={clickOpenSnackBar("success")}>
+			{/* <Button onClick={handleClick}>Show snackbar</Button>
+			<Button onClick={handleClickVariant("success")}>
 				Show success snackbar
 			</Button> */}
 		</React.Fragment>

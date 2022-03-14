@@ -6,6 +6,8 @@ import CreateArea from "./components/createArea.jsx";
 import EditArea from "./components/editArea.jsx";
 import Loader from "./components/accessories/loader";
 import rawData from "./components/accessories/rawData"
+import SnackBar from "./components/accessories/snackBar";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 function App () {
 	// i was inserted
@@ -13,6 +15,11 @@ function App () {
 	const [isEditing, setIsEditing] = useState(false);
 	const [ itemToEdit, setItemToEdit ] = useState( {} );
 	const [ isLoading, setIsLoading ] = useState( true );
+	const [ openSnackBar, setOpenSnackBar ] = useState( {
+		status: false,
+		variant: "",
+		message: ""
+	})
 
 	useEffect( () => {
 		setNotes( [ ...rawData ] );
@@ -47,28 +54,35 @@ function App () {
 		setIsEditing( false );
 	};
 
+	const handleOpenSnackBar = (status, variant,message) => {
+		setOpenSnackBar( {
+			status: status,
+			variant: variant,
+			message:message
+		})
+	}
+
 	return (
-		<div >
+		<div>
 			<Header />
 			{isEditing ? (
-				<EditArea 
+				<EditArea
 					itemToEdit={itemToEdit}
 					setItemToEdit={setItemToEdit}
 					setIsEditing={setIsEditing}
-					handleConfirmEdit={ handleConfirmEdit}
+					handleConfirmEdit={handleConfirmEdit}
 				/>
 			) : (
-				<CreateArea
+					<CreateArea
 						notes={notes}
 						setNotes={setNotes}
-						itemToEdit={itemToEdit}
-						
-				/>
+						itemToEdit={itemToEdit} 
+						handleOpenSnackBar={handleOpenSnackBar}
+						/>
 			)}
-			{isLoading
-				?
+			{isLoading ? (
 				<Loader />
-				:
+			) : (
 				notes.map((item) => {
 					return (
 						<Note
@@ -80,9 +94,16 @@ function App () {
 							handleEdit={handleEdit}
 						/>
 					);
-				} )
-			}
+				})
+			)}
 			{/* <Note key={1} title="Note title" content="Note content" /> */}
+			<SnackbarProvider maxSnack={3}>
+				<SnackBar
+					useSnackbar={useSnackbar}
+					openSnackBar={openSnackBar}
+					handleOpenSnackBar ={handleOpenSnackBar}
+				/>
+			</SnackbarProvider>
 			<Footer />
 		</div>
 	);

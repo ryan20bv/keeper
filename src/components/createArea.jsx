@@ -4,7 +4,7 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Zoom from "@mui/material/Zoom";
 
-function CreateArea({ notes, setNotes}) {
+function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 	const [inputNote, setInputNote] = useState({
 		id: "",
 		title: "",
@@ -46,6 +46,7 @@ function CreateArea({ notes, setNotes}) {
 			>
 				{isSet &&
 					<input
+						onClick={()=>handleOpenSnackBar(true, "success", "Added Successful!")}
 						onChange={(event) => handleChange(event)}
 						name="title"
 						placeholder="Title"
