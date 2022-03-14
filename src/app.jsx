@@ -7,7 +7,8 @@ import EditArea from "./components/editArea.jsx";
 import Loader from "./components/accessories/loader";
 import rawData from "./components/accessories/rawData"
 
-function App() {
+function App () {
+	// i was inserted
 	const [notes, setNotes] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [ itemToEdit, setItemToEdit ] = useState( {} );
