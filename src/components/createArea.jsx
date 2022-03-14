@@ -24,18 +24,17 @@ function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 	};
 
 	const handleAdd = (event) => {
-		
-		console.log("here");
-		setNotes([...notes, inputNote]);
+		event.preventDefault();
+		setNotes( [ ...notes, inputNote ] );
+		handleOpenSnackBar(true, "success", "Added Successful!")
 		setInputNote({
 			id: "",
 			title: "",
 			content: "",
 		} );
 		setIsSet( false );
-		event.preventDefault();
+		
 	};
-
 	return (
 		<div>
 			<form
@@ -46,7 +45,7 @@ function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 			>
 				{isSet &&
 					<input
-						onClick={()=>handleOpenSnackBar(true, "success", "Added Successful!")}
+					
 						onChange={(event) => handleChange(event)}
 						name="title"
 						placeholder="Title"
