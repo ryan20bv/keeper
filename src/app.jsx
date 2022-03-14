@@ -5,6 +5,7 @@ import Note from "./components/note";
 import CreateArea from "./components/createArea.jsx";
 import EditArea from "./components/editArea.jsx";
 import Loader from "./components/accessories/loader";
+import rawData from "./components/accessories/rawData"
 
 function App() {
 	const [notes, setNotes] = useState([]);
@@ -13,6 +14,7 @@ function App() {
 	const [ isLoading, setIsLoading ] = useState( true );
 
 	useEffect( () => {
+		setNotes( [ ...rawData ] );
 		let timerId = setTimeout( ()=>setIsLoading( false ), 3000 );
 		return (()=>{clearTimeout(timerId)})
 	}, [] )
@@ -43,8 +45,6 @@ function App() {
 		setItemToEdit( {} );
 		setIsEditing( false );
 	};
-
-
 
 	return (
 		<div >
