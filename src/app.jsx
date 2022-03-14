@@ -6,6 +6,7 @@ import CreateArea from "./components/createArea.jsx";
 import EditArea from "./components/editArea.jsx";
 import Loader from "./components/accessories/loader";
 import rawData from "./components/accessories/rawData"
+import rawNotes from "./rawNotes";
 import SnackBar from "./components/accessories/snackBar";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
@@ -22,7 +23,7 @@ function App () {
 	})
 
 	useEffect( () => {
-		setNotes( [ ...rawData ] );
+		setNotes( [ ...rawData,...rawNotes ] );
 		let timerId = setTimeout( ()=>setIsLoading( false ), 3000 );
 		return (()=>{clearTimeout(timerId)})
 	}, [] )
@@ -32,7 +33,8 @@ function App () {
 		const filteredNote = notes.filter((eachNote) => {
 			return eachNote.id !== idToDelete;
 		});
-		setNotes([...filteredNote]);
+		setNotes( [ ...filteredNote ] );
+		handleOpenSnackBar(true,"warning","Delete success!")
 	};
 
 	const handleEdit = (idEdit) => {
@@ -43,18 +45,18 @@ function App () {
 		setIsEditing(true);
 	};
 
-	const handleConfirmEdit = (event) => {
-		event.preventDefault();
+	const handleConfirmEdit = () => {
 		const index =notes.findIndex( (item) => {
 			return (item.id === itemToEdit.id)
 		})
 	  notes.splice( index, 1, itemToEdit );
 		setNotes( [ ...notes ] );
+		handleOpenSnackBar( true, "info", "Edit success!" );
 		setItemToEdit( {} );
 		setIsEditing( false );
 	};
 
-	const handleOpenSnackBar = (status, variant,message) => {
+	const handleOpenSnackBar = (status, variant = "",message = "") => {
 		setOpenSnackBar( {
 			status: status,
 			variant: variant,
@@ -71,14 +73,15 @@ function App () {
 					setItemToEdit={setItemToEdit}
 					setIsEditing={setIsEditing}
 					handleConfirmEdit={handleConfirmEdit}
+					handleOpenSnackBar={handleOpenSnackBar}
 				/>
 			) : (
-					<CreateArea
-						notes={notes}
-						setNotes={setNotes}
-						itemToEdit={itemToEdit} 
-						handleOpenSnackBar={handleOpenSnackBar}
-						/>
+				<CreateArea
+					notes={notes}
+					setNotes={setNotes}
+					itemToEdit={itemToEdit}
+					handleOpenSnackBar={handleOpenSnackBar}
+				/>
 			)}
 			{isLoading ? (
 				<Loader />
@@ -101,7 +104,7 @@ function App () {
 				<SnackBar
 					useSnackbar={useSnackbar}
 					openSnackBar={openSnackBar}
-					handleOpenSnackBar ={handleOpenSnackBar}
+					handleOpenSnackBar={handleOpenSnackBar}
 				/>
 			</SnackbarProvider>
 			<Footer />

@@ -8,7 +8,7 @@ function SnackBar({ useSnackbar, openSnackBar, handleOpenSnackBar }) {
 	useEffect(() => {
 		if (openSnackBar.status === true) {
 			clickOpenSnackBar(openSnackBar.variant)();
-			handleOpenSnackBar(false, "", "");
+			handleOpenSnackBar(false);
 		}
 	}, [openSnackBar.status]);
 

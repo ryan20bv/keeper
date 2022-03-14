@@ -1,21 +1,43 @@
-import React from "react";
+import React,{useState} from "react";
 import Fab from "@mui/material/Fab";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Zoom from "@mui/material/Zoom";
 // import { v4 as uuidv4 } from "uuid";
 
-const EditArea = ( { itemToEdit,setItemToEdit,setIsEditing,handleConfirmEdit } ) => {
-	
-	const handleChange = ( event ) => {
-		const {name,value} = event.target
-		setItemToEdit({...itemToEdit, [name]:value})
-	}
-	const handleCancel = ( event ) => {
+const EditArea = ({
+	itemToEdit,
+	setItemToEdit,
+	setIsEditing,
+	handleConfirmEdit,
+	handleOpenSnackBar,
+}) => {
+	const [anyChanges, setAnyChanges] = useState(false);
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setItemToEdit({ ...itemToEdit, [name]: value });
+		if (!anyChanges) {
+			setAnyChanges(true);
+		}
+	};
+	const handleCancel = (event) => {
 		event.preventDefault();
-		setItemToEdit( {} );
+		setItemToEdit({});
 		setIsEditing( false );
-	}
+		handleOpenSnackBar(true, "default", "Edit cancelled!")
+	};
+
+	const handleCheckChanges = ( event ) => {
+		event.preventDefault();
+		if ( anyChanges ) {
+			handleConfirmEdit()
+		} else {
+			setItemToEdit( {} );
+			setIsEditing( false );
+			handleOpenSnackBar( true, "default", "No changes made!" )
+		}
+	};
+
 	return (
 		<div>
 			<form>
@@ -46,7 +68,7 @@ const EditArea = ( { itemToEdit,setItemToEdit,setIsEditing,handleConfirmEdit } )
 				<Zoom in={true}>
 					<Fab
 						className="edit-btn"
-						onClick={(event) => handleConfirmEdit(event)}
+						onClick={(event) => handleCheckChanges(event)}
 					>
 						<CheckIcon />
 					</Fab>
