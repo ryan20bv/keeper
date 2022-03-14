@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Note from "./components/note";
 import CreateArea from "./components/createArea.jsx";
 import EditArea from "./components/editArea.jsx";
+import Loader from "./components/accessories/loader";
 
 function App() {
 	const [notes, setNotes] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [ itemToEdit, setItemToEdit ] = useState( {} );
-	
+	const [ isLoading, setIsLoading ] = useState( true );
+
+	useEffect( () => {
+		let timerId = setTimeout( ()=>setIsLoading( false ), 3000 );
+		return (()=>{clearTimeout(timerId)})
+	}, [] )
+
 
 	const handleDelete = (idToDelete) => {
 		const filteredNote = notes.filter((eachNote) => {
@@ -57,18 +64,23 @@ function App() {
 						
 				/>
 			)}
-			{notes.map((item) => {
-				return (
-					<Note
-						key={item.id}
-						title={item.title}
-						content={item.content}
-						id={item.id}
-						handleDelete={handleDelete}
-						handleEdit={handleEdit}
-					/>
-				);
-			})}
+			{isLoading
+				?
+				<Loader />
+				:
+				notes.map((item) => {
+					return (
+						<Note
+							key={item.id}
+							title={item.title}
+							content={item.content}
+							id={item.id}
+							handleDelete={handleDelete}
+							handleEdit={handleEdit}
+						/>
+					);
+				} )
+			}
 			{/* <Note key={1} title="Note title" content="Note content" /> */}
 			<Footer />
 		</div>
