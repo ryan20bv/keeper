@@ -145,3 +145,6 @@ form.create-note .btn {
   cursor: pointer;
   outline: none;
 }
+.modal-header{
+  background-color: "f5ba13"
+}

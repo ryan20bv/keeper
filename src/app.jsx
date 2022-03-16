@@ -24,6 +24,7 @@ function App () {
 	} )
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ itemToDelete, setItemToDelete ] = useState( {} );
+	
 
 	useEffect( () => {
 		setNotes( [ ...rawData,...rawNotes ] );
@@ -51,7 +52,9 @@ function App () {
 			return item.id === idEdit;
 		});
 		setItemToEdit(itemEdit);
-		setIsEditing(true);
+		setIsEditing( true );
+		handleOpenModal();
+		
 	};
 
 	const handleConfirmEdit = () => {
@@ -83,7 +86,7 @@ function App () {
 	return (
 		<div>
 			<Header />
-			{isEditing ? (
+			{/* {isEditing ? (
 				<EditArea
 					itemToEdit={itemToEdit}
 					setItemToEdit={setItemToEdit}
@@ -98,7 +101,13 @@ function App () {
 					itemToEdit={itemToEdit}
 					handleOpenSnackBar={handleOpenSnackBar}
 				/>
-			)}
+			)} */}
+			<CreateArea
+				notes={notes}
+				setNotes={setNotes}
+				itemToEdit={itemToEdit}
+				handleOpenSnackBar={handleOpenSnackBar}
+			/>
 			{isLoading ? (
 				<Loader />
 			) : (
@@ -131,6 +140,9 @@ function App () {
 				handleCancelDelete={handleCancelDelete}
 				itemToDelete={itemToDelete}
 				handleConfirmDelete={handleConfirmDelete}
+				isEditing={isEditing}
+				setIsEditing={setIsEditing}
+				itemToEdit={itemToEdit}
 			/>
 			<Footer />
 		</div>

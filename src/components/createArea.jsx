@@ -43,22 +43,21 @@ function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 					handleAdd(event);
 				}}
 			>
-				{isSet &&
+				{isSet && (
 					<input
-					
 						onChange={(event) => handleChange(event)}
 						name="title"
-						placeholder="Title"
+						placeholder="Note Title"
 						value={inputNote.title}
 						required
 					/>
-				}
-				
+				)}
+
 				<textarea
 					onClick={() => setIsSet(true)}
 					onChange={(event) => handleChange(event)}
 					name="content"
-					placeholder="Take a note..."
+					placeholder={isSet ? "Note Content" : "Take a note..."}
 					rows={isSet ? "3" : "1"}
 					value={inputNote.content}
 					required
