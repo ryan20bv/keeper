@@ -9,6 +9,7 @@ import rawData from "./components/accessories/rawData"
 import rawNotes from "./rawNotes";
 import SnackBar from "./components/accessories/snackBar";
 import { SnackbarProvider, useSnackbar } from "notistack";
+import ScrollDialog from "./components/accessories/modal"
 
 function App () {
 	// i was inserted
@@ -107,6 +108,7 @@ function App () {
 					handleOpenSnackBar={handleOpenSnackBar}
 				/>
 			</SnackbarProvider>
+			<ScrollDialog />
 			<Footer />
 		</div>
 	);
