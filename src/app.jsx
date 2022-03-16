@@ -9,7 +9,7 @@ import rawData from "./components/accessories/rawData"
 import rawNotes from "./rawNotes";
 import SnackBar from "./components/accessories/snackBar";
 import { SnackbarProvider, useSnackbar } from "notistack";
-import ScrollDialog from "./components/accessories/modal"
+import Modal from "./components/accessories/modal"
 
 function App () {
 	// i was inserted
@@ -21,7 +21,8 @@ function App () {
 		status: false,
 		variant: "",
 		message: ""
-	})
+	} )
+	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	useEffect( () => {
 		setNotes( [ ...rawData,...rawNotes ] );
@@ -64,6 +65,13 @@ function App () {
 			message:message
 		})
 	}
+	const handleOpenModal = () => {
+		setIsModalOpen(true)
+	}
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false)
+	}
 
 	return (
 		<div>
@@ -96,6 +104,7 @@ function App () {
 							id={item.id}
 							handleDelete={handleDelete}
 							handleEdit={handleEdit}
+							handleOpenModal={handleOpenModal}
 						/>
 					);
 				})
@@ -108,7 +117,7 @@ function App () {
 					handleOpenSnackBar={handleOpenSnackBar}
 				/>
 			</SnackbarProvider>
-			<ScrollDialog />
+			<Modal isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} />
 			<Footer />
 		</div>
 	);
