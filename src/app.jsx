@@ -46,7 +46,7 @@ function App () {
 		setIsEditing( false );
 		setItemToEdit( {} );
 
-		handleOpenSnackBar( true, "default", isEditing?"Edit cancelled" :"Delete cancelled!" );
+		handleOpenSnackBar( true, "default", isEditing?"Edit cancelled" : "Delete cancelled" );
 		handleCloseModal();
 	}
 
@@ -69,6 +69,7 @@ function App () {
 		handleOpenSnackBar( true, "info", "Edit success!" );
 		setItemToEdit( {} );
 		setIsEditing( false );
+		handleCloseModal();
 	};
 
 	const handleOpenSnackBar = (status, variant = "",message = "") => {
@@ -146,6 +147,10 @@ function App () {
 				isEditing={isEditing}
 				setIsEditing={setIsEditing}
 				itemToEdit={itemToEdit}
+				setItemToEdit={setItemToEdit}
+				handleConfirmEdit={handleConfirmEdit}
+				handleOpenSnackBar={handleOpenSnackBar}
+				handleCloseModal={handleCloseModal}
 			/>
 			<Footer />
 		</div>

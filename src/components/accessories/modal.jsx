@@ -1,12 +1,14 @@
-import * as React from "react";
-import Button, { useState, useEffect } from "@mui/material/Button";
+import React,{useState,useRef,useEffect} from "react";
+// import Button, { useState, useEffect } from "@mui/material/Button";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { createTheme } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { formLabelClasses } from "@mui/material";
+
 
 // const theme = createTheme({
 // 	components: {
@@ -26,15 +28,41 @@ export default function Modal({
 	isModalOpen,
 	handleCancelDelete,
 	itemToDelete,
-  handleConfirmDelete,
-  isEditing,
-  itemToEdit
+	handleConfirmDelete,
+	isEditing,
+	setIsEditing,
+	itemToEdit,
+	setItemToEdit,
+	handleConfirmEdit,
+	handleOpenSnackBar,
+	handleCloseModal,
 }) {
 	// const [open, setOpen] = React.useState(false);
 	// const [scroll, setScroll] = React.useState("paper");
 
-	const descriptionElementRef = React.useRef(null);
-	React.useEffect(() => {
+	const descriptionElementRef = useRef(null);
+	const [anyChanges, setAnyChanges] = useState(false);
+	const handleChange = (event) => {
+		const { name, value } = event.target;
+		setItemToEdit({ ...itemToEdit, [name]: value });
+		if (!anyChanges) {
+			setAnyChanges(true);
+		}
+	};
+	const handleCheckChanges = (event) => {
+		event.preventDefault();
+		if (anyChanges) {
+      handleConfirmEdit();
+      setAnyChanges( false );
+		} else {
+			setItemToEdit({});
+			setIsEditing(false);
+			handleOpenSnackBar(true, "default", "No changes made!");
+			handleCloseModal();
+		}
+	};
+
+	useEffect(() => {
 		if (isModalOpen) {
 			const { current: descriptionElement } = descriptionElementRef;
 			if (descriptionElement !== null) {
@@ -56,29 +84,67 @@ export default function Modal({
 				<DialogTitle id="scroll-dialog-title modal-header">
 					{isEditing ? "EDIT" : "DELETE"}
 				</DialogTitle>
-				<DialogTitle
-					id="scroll-dialog-title"
-					contentEditable={isEditing ? true : false}
-					suppressContentEditableWarning={true}
-				>
-					{isEditing ? itemToEdit.title : itemToDelete.title}
+				<DialogTitle id="scroll-dialog-title">
+					{isEditing ? (
+						<TextField
+							autoFocus
+							margin="dense"
+							id="title"
+							name="title"
+							label="Title"
+							type="text"
+							fullWidth
+							variant="standard"
+							value={itemToEdit.title}
+							onChange={(event) => handleChange(event)}
+						/>
+					) : (
+						itemToDelete.title
+					)}
 				</DialogTitle>
-				<DialogContent dividers={true}>
+				<DialogContent
+					dividers={true}
+					sx={{
+						width: 1000,
+						maxWidth: "100%",
+					}}
+				>
 					<DialogContentText
 						id="scroll-dialog-description"
 						ref={descriptionElementRef}
 						tabIndex={-1}
-						contentEditable={isEditing ? true : false}
-						suppressContentEditableWarning={true}
 					>
-						{isEditing ? itemToEdit.content : itemToDelete.content}
+						{itemToDelete.content}
 					</DialogContentText>
+					{isEditing ? (
+						<TextField
+							autoFocus
+							margin="dense"
+							id="content"
+							name="content"
+							label="Content"
+							type="text"
+							fullWidth
+							variant="standard"
+							value={itemToEdit.content}
+							onChange={(event) => handleChange(event)}
+							multiline
+						/>
+					) : (
+						<DialogContentText
+							id="scroll-dialog-description"
+							ref={descriptionElementRef}
+							tabIndex={-1}
+						>
+							itemToDelete.content
+						</DialogContentText>
+					)}
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCancelDelete}>Cancel</Button>
 
 					{isEditing ? (
-						<Button onClick={() => handleConfirmDelete(itemToDelete.id)}>
+						<Button onClick={(event) => handleCheckChanges(event)}>
 							Confirm Edit
 						</Button>
 					) : (
@@ -91,3 +157,4 @@ export default function Modal({
 		</div>
 	);
 }
+
