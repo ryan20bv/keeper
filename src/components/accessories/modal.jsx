@@ -55,7 +55,9 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCancelDelete}>Cancel</Button>
-					<Button onClick={handleCancelDelete}>Subscribe</Button>
+					<Button onClick={() => handleConfirmDelete(itemToDelete.id)}>
+						Confirm Delete
+					</Button>
 				</DialogActions>
 			</Dialog>
 		</div>

@@ -37,6 +37,7 @@ function App () {
 			return eachNote.id !== idToDelete;
 		});
 		setNotes( [ ...filteredNote ] );
+		handleCloseModal();
 		handleOpenSnackBar(true,"warning","Delete success!")
 	};
 	const handleCancelDelete = () => {
