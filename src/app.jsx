@@ -23,6 +23,7 @@ function App () {
 		message: ""
 	} )
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const [ itemToDelete, setItemToDelete ] = useState( {} );
 
 	useEffect( () => {
 		setNotes( [ ...rawData,...rawNotes ] );
@@ -31,13 +32,18 @@ function App () {
 	}, [] )
 
 
-	const handleDelete = (idToDelete) => {
+	const handleConfirmDelete = (idToDelete) => {
 		const filteredNote = notes.filter((eachNote) => {
 			return eachNote.id !== idToDelete;
 		});
 		setNotes( [ ...filteredNote ] );
 		handleOpenSnackBar(true,"warning","Delete success!")
 	};
+	const handleCancelDelete = () => {
+		setItemToDelete( {} );
+		handleOpenSnackBar(true, "default", "Delete cancelled!");
+		handleCloseModal();
+	}
 
 	const handleEdit = (idEdit) => {
 		const itemEdit = notes.find((item) => {
@@ -70,7 +76,7 @@ function App () {
 	}
 
 	const handleCloseModal = () => {
-		setIsModalOpen(false)
+		setIsModalOpen( false );
 	}
 
 	return (
@@ -102,9 +108,11 @@ function App () {
 							title={item.title}
 							content={item.content}
 							id={item.id}
-							handleDelete={handleDelete}
-							handleEdit={handleEdit}
+							// handleConfirmDelete={handleConfirmDelete}
 							handleOpenModal={handleOpenModal}
+							handleEdit={handleEdit}
+							handleCancelDelete={handleCancelDelete}
+							setItemToDelete={setItemToDelete}
 						/>
 					);
 				})
@@ -117,7 +125,12 @@ function App () {
 					handleOpenSnackBar={handleOpenSnackBar}
 				/>
 			</SnackbarProvider>
-			<Modal isModalOpen={isModalOpen} handleCloseModal={handleCloseModal} />
+			<Modal
+				isModalOpen={isModalOpen}
+				handleCancelDelete={handleCancelDelete}
+				itemToDelete={itemToDelete}
+				handleConfirmDelete={handleConfirmDelete}
+			/>
 			<Footer />
 		</div>
 	);
