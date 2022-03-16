@@ -43,7 +43,10 @@ function App () {
 	};
 	const handleCancelDelete = () => {
 		setItemToDelete( {} );
-		handleOpenSnackBar(true, "default", "Delete cancelled!");
+		setIsEditing( false );
+		setItemToEdit( {} );
+
+		handleOpenSnackBar( true, "default", isEditing?"Edit cancelled" :"Delete cancelled!" );
 		handleCloseModal();
 	}
 
