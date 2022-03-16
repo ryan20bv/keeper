@@ -96,7 +96,7 @@ export default function Modal({
 							fullWidth
 							variant="standard"
 							value={itemToEdit.title}
-							onChange={(event) => handleChange(event)}
+              onChange={( event ) => handleChange( event )}
 						/>
 					) : (
 						itemToDelete.title
@@ -109,13 +109,6 @@ export default function Modal({
 						maxWidth: "100%",
 					}}
 				>
-					<DialogContentText
-						id="scroll-dialog-description"
-						ref={descriptionElementRef}
-						tabIndex={-1}
-					>
-						{itemToDelete.content}
-					</DialogContentText>
 					{isEditing ? (
 						<TextField
 							autoFocus
@@ -128,7 +121,7 @@ export default function Modal({
 							variant="standard"
 							value={itemToEdit.content}
 							onChange={(event) => handleChange(event)}
-							multiline
+              multiline
 						/>
 					) : (
 						<DialogContentText
@@ -136,7 +129,7 @@ export default function Modal({
 							ref={descriptionElementRef}
 							tabIndex={-1}
 						>
-							itemToDelete.content
+							{itemToDelete.content}
 						</DialogContentText>
 					)}
 				</DialogContent>
