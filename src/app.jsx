@@ -16,7 +16,11 @@ function App () {
 	// i was inserted
 	const [notes, setNotes] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
-	const [ itemToEdit, setItemToEdit ] = useState( {} );
+	const [ itemToEdit, setItemToEdit ] = useState( {
+		id: "",
+		title: "",
+		content: ""
+	} );
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ openSnackBar, setOpenSnackBar ] = useState( {
 		status: false,
@@ -24,7 +28,11 @@ function App () {
 		message: ""
 	} )
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
-	const [ itemToDelete, setItemToDelete ] = useState( {} );
+	const [ itemToDelete, setItemToDelete ] = useState( {
+		id: "",
+		title: "",
+		content:""
+	} );
 	
 /* this for without DB */
 	// useEffect( () => {
@@ -61,7 +69,7 @@ function App () {
 				},
 			})
 				.then((res) => {
-					console.log(res);
+					console.log(res.data);
 				})
 				.then(() => {
 					const filteredNote = notes.filter((eachNote) => {
@@ -79,9 +87,17 @@ function App () {
 		
 	};
 	const handleCancelDelete = () => {
-		setItemToDelete( {} );
+		setItemToDelete( {
+			id: "",
+			title: "",
+			content:""
+		} );
 		setIsEditing( false );
-		setItemToEdit( {} );
+		setItemToEdit({
+			id: "",
+			title: "",
+			content: "",
+		});
 
 		handleOpenSnackBar( true, "default", isEditing?"Edit cancelled" : "Delete cancelled" );
 		handleCloseModal();
@@ -118,7 +134,11 @@ function App () {
 					notes.splice(index, 1, itemToEdit);
 					setNotes([...notes]);
 					handleOpenSnackBar(true, "info", "Edit success!");
-					setItemToEdit({});
+					setItemToEdit({
+						id: "",
+						title: "",
+						content: "",
+					});
 					setIsEditing(false);
 					handleCloseModal();
 				});

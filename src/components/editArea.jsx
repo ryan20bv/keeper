@@ -22,7 +22,11 @@ const EditArea = ({
 	};
 	const handleCancel = (event) => {
 		event.preventDefault();
-		setItemToEdit({});
+		setItemToEdit( {
+			id: "",
+			title: "",
+			content:""
+		});
 		setIsEditing( false );
 		handleOpenSnackBar(true, "default", "Edit cancelled!")
 	};
@@ -32,7 +36,11 @@ const EditArea = ({
 		if ( anyChanges ) {
 			handleConfirmEdit()
 		} else {
-			setItemToEdit( {} );
+			setItemToEdit({
+				id: "",
+				title: "",
+				content: "",
+			});
 			setIsEditing( false );
 			handleOpenSnackBar( true, "default", "No changes made!" )
 		}

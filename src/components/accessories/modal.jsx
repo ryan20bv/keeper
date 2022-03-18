@@ -55,7 +55,11 @@ export default function Modal({
       handleConfirmEdit();
       setAnyChanges( false );
 		} else {
-			setItemToEdit({});
+			setItemToEdit({
+				id: "",
+				title: "",
+				content: "",
+			});
 			setIsEditing(false);
 			handleOpenSnackBar(true, "default", "No changes made!");
 			handleCloseModal();
