@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Zoom from "@mui/material/Zoom";
+import axios from "axios";
 
 function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 	const [inputNote, setInputNote] = useState({
@@ -23,16 +24,29 @@ function CreateArea({ notes, setNotes, handleOpenSnackBar}) {
 		});
 	};
 
-	const handleAdd = (event) => {
-		event.preventDefault();
-		setNotes( [ ...notes, inputNote ] );
-		handleOpenSnackBar(true, "success", "Added Successful!")
-		setInputNote({
-			id: "",
-			title: "",
-			content: "",
-		} );
-		setIsSet( false );
+	const handleAdd = ( event ) => {
+		try {
+			event.preventDefault();
+			axios
+				.post("http://localhost:4001/createNote", inputNote)
+				// .then((res) => {
+				// 	console.log(res);
+				// })
+				.then(() => {
+					setNotes([...notes, inputNote]);
+					handleOpenSnackBar(true, "success", "Added Successful!");
+					setInputNote({
+						id: "",
+						title: "",
+						content: "",
+					});
+					setIsSet(false);
+				});
+			
+		} catch (error) {
+			console.log(error)
+		}
+		
 		
 	};
 	return (
