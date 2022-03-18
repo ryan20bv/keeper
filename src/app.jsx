@@ -10,6 +10,7 @@ import rawNotes from "./rawNotes";
 import SnackBar from "./components/accessories/snackBar";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Modal from "./components/accessories/modal"
+import axios from "axios";
 
 function App () {
 	// i was inserted
@@ -25,12 +26,14 @@ function App () {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ itemToDelete, setItemToDelete ] = useState( {} );
 	
+/* this for without DB */
+	// useEffect( () => {
+	// 	setNotes( [ ...rawData,...rawNotes ] );
+	// 	let timerId = setTimeout( ()=>setIsLoading( false ), 3000 );
+	// 	return (()=>{clearTimeout(timerId)})
+	// }, [] )
 
-	useEffect( () => {
-		setNotes( [ ...rawData,...rawNotes ] );
-		let timerId = setTimeout( ()=>setIsLoading( false ), 3000 );
-		return (()=>{clearTimeout(timerId)})
-	}, [] )
+
 
 
 	const handleConfirmDelete = (idToDelete) => {
