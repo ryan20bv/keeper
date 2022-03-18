@@ -33,6 +33,21 @@ function App () {
 	// 	return (()=>{clearTimeout(timerId)})
 	// }, [] )
 
+	useEffect( () => {
+		try {
+			axios.get( "http://localhost:4001/" )
+				.then( ( res ) => {
+					console.log( res );
+					setNotes( [ ...res.data ] )
+				} )
+				.then( () => {
+					setIsLoading( false );
+				})
+		} catch (error) {
+			console.log(error)
+		}
+		
+	},[])
 
 
 
