@@ -3,10 +3,10 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Note from "./components/note";
 import CreateArea from "./components/createArea.jsx";
-import EditArea from "./components/editArea.jsx";
+// import EditArea from "./components/editArea.jsx";
 import Loader from "./components/accessories/loader";
-import rawData from "./components/accessories/rawData"
-import rawNotes from "./rawNotes";
+// import rawData from "./components/accessories/rawData"
+// import rawNotes from "./rawNotes";
 import SnackBar from "./components/accessories/snackBar";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Modal from "./components/accessories/modal"
@@ -37,7 +37,7 @@ function App () {
 		try {
 			axios.get( "http://localhost:4001/" )
 				.then( ( res ) => {
-					console.log( res );
+					// console.log( res );
 					setNotes( [ ...res.data ] )
 				} )
 				.then( () => {
