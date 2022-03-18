@@ -51,13 +51,32 @@ function App () {
 
 
 
-	const handleConfirmDelete = (idToDelete) => {
-		const filteredNote = notes.filter((eachNote) => {
-			return eachNote.id !== idToDelete;
-		});
-		setNotes( [ ...filteredNote ] );
-		handleCloseModal();
-		handleOpenSnackBar(true,"warning","Delete success!")
+	const handleConfirmDelete = ( idToDelete ) => {
+		try {
+			axios({
+				method: "DELETE",
+				url: "http://localhost:4001/deleteNote",
+				data: {
+					id:idToDelete
+				},
+			})
+				.then((res) => {
+					console.log(res);
+				})
+				.then(() => {
+					const filteredNote = notes.filter((eachNote) => {
+						return eachNote.id !== idToDelete;
+					});
+					setNotes([...filteredNote]);
+					handleCloseModal();
+					handleOpenSnackBar(true, "warning", "Delete success!");
+				});
+
+			
+		} catch (error) {
+			console.log(error)
+		}
+		
 	};
 	const handleCancelDelete = () => {
 		setItemToDelete( {} );
