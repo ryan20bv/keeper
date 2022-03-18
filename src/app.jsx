@@ -98,15 +98,36 @@ function App () {
 	};
 
 	const handleConfirmEdit = () => {
-		const index =notes.findIndex( (item) => {
-			return (item.id === itemToEdit.id)
-		})
-	  notes.splice( index, 1, itemToEdit );
-		setNotes( [ ...notes ] );
-		handleOpenSnackBar( true, "info", "Edit success!" );
-		setItemToEdit( {} );
-		setIsEditing( false );
-		handleCloseModal();
+		try {
+			axios({
+				method: "PATCH",
+				url: "http://localhost:4001/updateNote",
+				data: {
+					id: itemToEdit.id,
+					title: itemToEdit.title,
+					content: itemToEdit.content,
+				},
+			})
+				.then((res) => {
+					console.log(res.data);
+				})
+				.then(() => {
+					const index = notes.findIndex((item) => {
+						return item.id === itemToEdit.id;
+					});
+					notes.splice(index, 1, itemToEdit);
+					setNotes([...notes]);
+					handleOpenSnackBar(true, "info", "Edit success!");
+					setItemToEdit({});
+					setIsEditing(false);
+					handleCloseModal();
+				});
+			
+		} catch (error) {
+			console.log(error)
+		}
+
+		
 	};
 
 	const handleOpenSnackBar = (status, variant = "",message = "") => {
